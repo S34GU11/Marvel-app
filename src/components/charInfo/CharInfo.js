@@ -6,7 +6,7 @@ import Spinner from "../spinner/Spinner"
 import Skeleton from "../skeleton/Skeleton"
 import './charInfo.scss'
 
-const CharInfo = props => {
+const CharInfo = (props) => {
     const [char, setChar] = useState(null)
 
     const {loading, error, clearError, getCharacter, } = useMarvelService()
@@ -57,10 +57,13 @@ const View = ({char}) => {
                 <div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">
-                        <a href={homepage} className="button button__main">
+                        <a href={homepage}
+                           target="_blank"
+                           className="button button__main">
                             <div className="inner">homepage</div>
                         </a>
                         <a href={wiki}
+                           target="_blank"
                            className="button button__secondary">
                             <div className="inner">Wiki</div>
                         </a>
@@ -76,10 +79,10 @@ const View = ({char}) => {
                 {
                     comics.map((item, i )=> {
                         return (
-                            <li className="char__comics-item"
-                                key={i}>
-                                {item.name}
-                            </li>
+                                <li className="char__comics-item"
+                                    key={i}>
+                                    {item.name}
+                                </li>
                         )
                     })
                 }
