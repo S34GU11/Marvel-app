@@ -1,4 +1,5 @@
 import {useState, useEffect, useRef} from "react"
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import PropTypes from 'prop-types'
 import './charList.scss'
 import Spinner from "../spinner/Spinner"
@@ -41,6 +42,7 @@ const CharList = props => {
     }
 
     const renderItems = arr => {
+        const duration = 300
         const items = arr.map((item, i) => {
 
             let imgStyle = {'objectFit' : 'cover'}
@@ -49,23 +51,28 @@ const CharList = props => {
                     imgStyle = {'objectFit' : 'contain'}
 
             return (
-                <li className="char__item"
-                    key={item.id}
-                    ref={el => itemRefs.current[i] = el}
-                    onClick={() => {
-                        props.onCharSelected(item.id)
-                        focusOnItemId(i)
-                    }}>
-                    <img src={item.thumbnail}
-                         alt={item.name}
-                         style={imgStyle}/>
-                    <div className="char__name">{item.name}</div>
-                </li>
+                <CSSTransition timeout={duration}
+                               classNames="char__item"
+                               key={item.id}>
+                    <li className="char__item"
+                        ref={el => itemRefs.current[i] = el}
+                        onClick={() => {
+                            props.onCharSelected(item.id)
+                            focusOnItemId(i)
+                        }}>
+                        <img src={item.thumbnail}
+                             alt={item.name}
+                             style={imgStyle}/>
+                        <div className="char__name">{item.name}</div>
+                    </li>
+                </CSSTransition>
             )
         })
         return (
             <ul className="char__grid">
-                {items}
+                <TransitionGroup component={null}>
+                    {items}
+                </TransitionGroup>
             </ul>
         )
     }

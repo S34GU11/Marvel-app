@@ -1,4 +1,5 @@
 import {useState, useEffect} from "react"
+import {CSSTransition, TransitionGroup} from "react-transition-group"
 import './randomChar.scss'
 import mjolnir from '../../resourses/img/mjolnir.png'
 import ErrorMessage from "../errorMessage/ErrorMessage"
@@ -7,6 +8,7 @@ import useMarvelService from "../../services/MarvelService"
 
 const RandomChar = () => {
     const [char, setChar] = useState({})
+    const [inProp, setInProp] = useState(false)
 
     const {loading, error, getCharacter, clearError} = useMarvelService()
 
@@ -23,9 +25,16 @@ const RandomChar = () => {
 
     const errorMessage = error ? <ErrorMessage/> : null
     const spinner = loading ? <Spinner/> : null
-    const content = !(loading || error) ? <View char={char}/> : null
+    const content = !(loading || error)
+        ? <CSSTransition in={inProp}
+                         classNames="randomchar"
+                         timeout={300}>
+            <View char={char}/>
+        </CSSTransition>
+        : null
 
     return (
+    <TransitionGroup component={null}>
         <div className="randomchar">
             {errorMessage}
             {spinner}
@@ -39,7 +48,10 @@ const RandomChar = () => {
                     Or choose another one
                 </p>
                 <button className="button button__main"
-                        onClick={updateChar}>
+                        onClick={() => {
+                            updateChar()
+                            setInProp(true)
+                        }}>
                     <div className="inner">try it</div>
                 </button>
                 <img src={mjolnir}
@@ -47,6 +59,7 @@ const RandomChar = () => {
                      className="randomchar__decoration"/>
             </div>
         </div>
+    </TransitionGroup>
     )
 }
 

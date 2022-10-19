@@ -7,8 +7,12 @@ import decoration from '../../resourses/img/vision.png'
 
 const MainPage = () => {
     const [selectedChar, setChar] = useState(null)
-    const onCharSelected = id => setChar(id)
+    const [inProp, setInProp] = useState(false)
 
+    const onCharSelected = id => {
+        setChar(id)
+        setInProp(true)
+    }
     return (
         <>
             <ErrorBoundary>
@@ -19,7 +23,8 @@ const MainPage = () => {
                     <CharList onCharSelected={onCharSelected}/>
                 </ErrorBoundary>
                 <ErrorBoundary>
-                    <CharInfo charId={selectedChar}/>
+                    <CharInfo charId={selectedChar}
+                              inProp={inProp}/>
                 </ErrorBoundary>
             </div>
             <img className="bg-decoration"

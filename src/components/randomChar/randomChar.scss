@@ -60,4 +60,18 @@
     bottom: 14px;
     right: -37px;
   }
+  &-enter {
+    opacity: 0;
+  }
+  &-enter-active {
+    opacity: 1;
+    transition: all 300ms ease-in;
+  }
+  &-exit {
+    opacity: 1;
+  }
+  &-exit-active {
+    opacity: 0;
+    transition: all 300ms ease-in;
+  }
 }

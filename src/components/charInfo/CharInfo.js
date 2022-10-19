@@ -1,4 +1,5 @@
 import {useState, useEffect} from "react"
+import {CSSTransition, TransitionGroup} from "react-transition-group"
 import PropTypes from 'prop-types'
 import useMarvelService from "../../services/MarvelService"
 import ErrorMessage from "../errorMessage/ErrorMessage"
@@ -8,7 +9,6 @@ import './charInfo.scss'
 
 const CharInfo = (props) => {
     const [char, setChar] = useState(null)
-
     const {loading, error, clearError, getCharacter, } = useMarvelService()
 
     useEffect(() => {
@@ -29,15 +29,23 @@ const CharInfo = (props) => {
     const skeleton = char ||loading || error ? null : <Skeleton/>
     const errorMessage = error ? <ErrorMessage/> : null
     const spinner = loading ? <Spinner/> : null
-    const content = !(loading || error || !char) ?  <View char={char}/> : null
+    const content = !(loading || error || !char)
+        ? <CSSTransition in={props.inProp}
+                         classNames="char__info"
+                         timeout={300}>
+            <View char={char}/>
+        </CSSTransition>
+        : null
 
     return (
-        <div className="char__info">
-            {skeleton}
-            {errorMessage}
-            {spinner}
-            {content}
-        </div>
+        <TransitionGroup component={null}>
+            <div className="char__info">
+                {skeleton}
+                {errorMessage}
+                {spinner}
+                {content}
+            </div>
+        </TransitionGroup>
     )
 }
 
@@ -50,7 +58,7 @@ const View = ({char}) => {
 
     return (
         <>
-            <div className="char__basics">
+            <div className="char__basics" >
                 <img src={thumbnail}
                      alt={name}
                      style={imgStyle}/>

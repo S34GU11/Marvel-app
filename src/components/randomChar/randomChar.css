@@ -57,5 +57,19 @@
   bottom: 14px;
   right: -37px;
 }
+.randomchar-enter {
+  opacity: 0;
+}
+.randomchar-enter-active {
+  opacity: 1;
+  transition: all 300ms ease-in;
+}
+.randomchar-exit {
+  opacity: 1;
+}
+.randomchar-exit-active {
+  opacity: 0;
+  transition: all 300ms ease-in;
+}
 
 /*# sourceMappingURL=randomChar.css.map */
