@@ -1,1 +1,1 @@
-# Getting Started with React App
+Getting Started React App with class components
