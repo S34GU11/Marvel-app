@@ -17,15 +17,21 @@ const useMarvelService = () => {
         return res.data.results.map(_transformCharacter)
     }
 
+    const getCharacterByName = async name => {
+        const res = await request(`${_apiBase}characters?name=${name}&${_apiKey}`)
+        return res.data.results.map(_transformCharacter)
+    }
+
     const _transformCharacter = char => {
         return {
             id: char.id,
             name: char.name,
-            description: char.description ? `${char.description.slice(0, 210)}...` : 'There is no description for this character.',
+            descriptionForRandomChar: char.description ? `${char.description.slice(0, 210)}...` : 'There is no description for this character.',
+            descriptionForSearchedChar: char.description ? `${char.description}` : 'There is no description for this character.',
             thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
             homepage: char.urls[0].url,
             wiki: char.urls[1].url,
-            comics: char.comics.items,
+            comics: char.comics.items.slice(0, 10),
 
         }
     }
@@ -47,13 +53,13 @@ const useMarvelService = () => {
             description: comic.description || 'There is no description for this comic.',
             pageCount: comic.pageCount ? `${comic.pageCount} pages.` : `No information about the number of pages.`,
             thumbnail: comic.thumbnail.path + '.' + comic.thumbnail.extension,
-            price: comic.prices.price ? `${comic.prices.price}$` : 'Not available.',
-            language: comic.textObjects.language || 'en-us',
+            price: comic.prices[0].price ? `${comic.prices[0].price}$` : 'Not available.',
+            language: comic.textObjects.language ? comic.textObjects.language : 'en-us',
 
         }
     }
 
-    return {loading, error, clearError, getCharacter, getAllCharacters, getComic, getAllComics}
+    return {loading, error, clearError, getCharacter, getCharacterByName, getAllCharacters, getComic, getAllComics}
 }
 
 export default useMarvelService

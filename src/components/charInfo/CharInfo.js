@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react"
-import {CSSTransition, TransitionGroup} from "react-transition-group"
+// import {CSSTransition, TransitionGroup} from "react-transition-group"
 import PropTypes from 'prop-types'
 import useMarvelService from "../../services/MarvelService"
 import ErrorMessage from "../errorMessage/ErrorMessage"
@@ -30,22 +30,24 @@ const CharInfo = (props) => {
     const errorMessage = error ? <ErrorMessage/> : null
     const spinner = loading ? <Spinner/> : null
     const content = !(loading || error || !char)
-        ? <CSSTransition in={props.inProp}
-                         classNames="char__info"
-                         timeout={300}>
+        ?
+      // need to fix 2 errors
+      //<CSSTransition in={props.inProp}
+      //                    classNames="char__info"
+      //                    timeout={300}>
             <View char={char}/>
-        </CSSTransition>
+      //</CSSTransition>
         : null
 
     return (
-        <TransitionGroup component={null}>
+        // <TransitionGroup component={null}>
             <div className="char__info">
                 {skeleton}
                 {errorMessage}
                 {spinner}
                 {content}
             </div>
-        </TransitionGroup>
+        // </TransitionGroup>
     )
 }
 

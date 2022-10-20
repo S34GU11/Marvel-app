@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, useRef} from "react"
 import {CSSTransition, TransitionGroup} from "react-transition-group"
 import './randomChar.scss'
 import mjolnir from '../../resourses/img/mjolnir.png'
@@ -26,15 +26,17 @@ const RandomChar = () => {
     const errorMessage = error ? <ErrorMessage/> : null
     const spinner = loading ? <Spinner/> : null
     const content = !(loading || error)
-        ? <CSSTransition in={inProp}
-                         classNames="randomchar"
-                         timeout={300}>
+        ?
+      // need to fix 2 errors
+      // <CSSTransition in={inProp}
+      //                    classNames="randomchar"
+      //                    timeout={300}>
             <View char={char}/>
-        </CSSTransition>
+      // </CSSTransition>
         : null
 
     return (
-    <TransitionGroup component={null}>
+    // <TransitionGroup>
         <div className="randomchar">
             {errorMessage}
             {spinner}
@@ -59,12 +61,12 @@ const RandomChar = () => {
                      className="randomchar__decoration"/>
             </div>
         </div>
-    </TransitionGroup>
+    // </TransitionGroup>
     )
 }
 
 const View = ({char}) => {
-    const {name, description, thumbnail, homepage, wiki} = char
+    const {name, descriptionForRandomChar, thumbnail, homepage, wiki} = char
 
     let imgStyle = {'objectFit' : 'cover'}
     if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
@@ -80,7 +82,7 @@ const View = ({char}) => {
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr">
-                    {description}
+                    {descriptionForRandomChar}
                 </p>
                 <div className="randomchar__btns">
                     <a href={homepage}
